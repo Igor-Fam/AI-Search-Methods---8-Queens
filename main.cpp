@@ -13,7 +13,7 @@ int main(){
 
     No* n = new No(0, false);
     n->visitaNo();
-    n->tabuleiro->imprimeTabuleiro();
+    n->imprimeTabuleiro();
     n->imprimeFilhos();
 }
 

@@ -8,7 +8,9 @@ using namespace std;
 No::No(int coluna, bool heuristica, Tabuleiro* t){
 
     if(t != nullptr){
-        *(this->tabuleiro) = *t;
+        for (int i = 0; i < N; i++)
+            for (int j = 0; j < N; j++)
+                this->tabuleiro->matriz[i][j] = t->matriz[i][j];
     } else {
         this->tabuleiro = new Tabuleiro(heuristica);
     }
@@ -18,9 +20,6 @@ No::No(int coluna, bool heuristica, Tabuleiro* t){
     if(heuristica){
         this->h = this->tabuleiro->h;
     }
-}
-
-No::~No(){
 }
 
 bool No::visitaNo(int coluna){
