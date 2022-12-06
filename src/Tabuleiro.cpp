@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-#include "Tabuleiro.h"
+#include "../include/Tabuleiro.h"
 
 using namespace std;
 

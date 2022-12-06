@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
 
-#include "No.h"
-#include "Tabuleiro.h"
+#include "../include/No.h"
+#include "../include/Tabuleiro.h"
 
 using namespace std;
 

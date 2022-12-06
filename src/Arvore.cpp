@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-#include "Arvore.h"
+#include "../include/Arvore.h"
 
 using namespace std;
 
