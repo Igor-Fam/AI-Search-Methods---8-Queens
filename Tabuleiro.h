@@ -1,7 +1,7 @@
 #ifndef TABULEIRO_H
 #define TABULEIRO_H
 
-#include "vector"
+#include <vector>
 
 #define N 8
 
@@ -11,15 +11,17 @@ class Tabuleiro
 {
 private:
     char matriz [N][N];
-    int proxLinha;
+    int linha;
     bool ignorarRestricoes;
     int h;
 public:
     friend class No;
-    Tabuleiro(bool r = false);
+    Tabuleiro(int linha, bool r = false);
     ~Tabuleiro();
+    int getLinha(){ return linha; };
+    void setLinha(int linha){ this->linha = linha; };
     void adicionaRainha(int coluna);
-    bool verificaResolvido(){ return proxLinha == N; };
+    bool verificaResolvido(){ return linha+1 == N; };
     bool verificaImpasse();
     void imprimeTabuleiro();
     vector<int> verificaDisponiveis();

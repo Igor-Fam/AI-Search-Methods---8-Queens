@@ -2,7 +2,7 @@
 #define NO_H
 
 #include "Tabuleiro.h"
-#include "vector"
+#include <vector>
 
 class No
 {
@@ -15,11 +15,12 @@ protected:
 
 public:
     //coluna a inserir rainha, heuristica ou não, estado anterior (se houver)
-    No(int coluna, bool heuristica, Tabuleiro* t = nullptr); 
+    No(int linha, int coluna, bool heuristica, Tabuleiro* t = nullptr);
     ~No();
     bool visitaNo(int coluna = -1); //se passar coluna, gera apenas um filho (backtracking)
     void imprimeFilhos();
     void imprimeTabuleiro(){tabuleiro->imprimeTabuleiro();};
+    vector<No*> getFilhos(){ return filhos; };
 };
 
 

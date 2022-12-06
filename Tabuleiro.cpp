@@ -1,10 +1,11 @@
+#include <iostream>
+#include <vector>
+
 #include "Tabuleiro.h"
-#include "iostream"
-#include "vector"
 
 using namespace std;
 
-Tabuleiro::Tabuleiro(bool r){
+Tabuleiro::Tabuleiro(int linha, bool r){
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
@@ -12,41 +13,39 @@ Tabuleiro::Tabuleiro(bool r){
             this->matriz[i][j] = 'F';
         }
     }
-    this->proxLinha = 0;
+    this->linha = linha;
     this->ignorarRestricoes = r;
 }
 
 void Tabuleiro::adicionaRainha(int coluna){
     if(coluna < 0 || coluna > N-1){
-        cout << "Posicao invalida!";
+        cout << "Posicao invalida!" << endl;
         return;
     }
 
-    if(matriz[proxLinha][coluna] != 'F'){
+    if(matriz[linha][coluna] != 'F'){
         if(this->ignorarRestricoes){
             this->h = this->h+2;
         } else {
-            cout << "Posicao indisponivel!";
+            cout << "Posicao indisponivel!" << endl;
             return;
         }
     }
 
-    for (int i = proxLinha; i < N; i++)
+    for (int i = linha; i < N; i++)
     {
         for (int j = 0; j < N; j++)
         {
-            if(i == proxLinha || j == coluna || j - coluna == i - proxLinha || j - coluna == proxLinha - i){
-                matriz[i][j] = 'Q';
+            if(i == linha || j == coluna || j - coluna == i - linha || j - coluna == linha - i){
+                matriz[i][j] = 'A';
             }
         }
     }
     
-    matriz[proxLinha][coluna] = 'A';
-    proxLinha = proxLinha + 1;
+    matriz[linha][coluna] = 'Q';
 }
 
 void Tabuleiro::imprimeTabuleiro(){
-    cout << endl;
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
@@ -62,7 +61,7 @@ vector<int> Tabuleiro::verificaDisponiveis(){
     
     for (int i = 0; i < N; i++)
     {
-        if(matriz[proxLinha][i] == 'F'){
+        if(matriz[linha+1][i] == 'F'){
             disponiveis.push_back(i);
         }
     }
@@ -72,7 +71,7 @@ vector<int> Tabuleiro::verificaDisponiveis(){
 
 bool Tabuleiro::verificaImpasse(){
     for (int i = 0; i < N; i++){
-        if(matriz[proxLinha][i] == 'F'){
+        if(matriz[linha+1][i] == 'F'){
             return false;
         }
     }
