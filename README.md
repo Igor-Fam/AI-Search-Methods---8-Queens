@@ -2,15 +2,15 @@
 
 ### Problema das 8 rainhas por Alexandre, Antônio, Artur, Caio, Henrique, Igor, Juliana e Thaís.
 
-# Instruções
+## Instruções
 
-### Para compilar
+### Para compilar (Linux)
 
 ```
 make
 ```
 
-### Para executar
+### Para executar (Linux)
 ```
-main
+./main
 ```
