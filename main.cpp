@@ -1,9 +1,9 @@
 #include <iostream>
 #include <vector>
 
-#include "Tabuleiro.h"
-#include "No.h"
-#include "Arvore.h"
+#include "./include/Tabuleiro.h"
+#include "./include/No.h"
+#include "./include/Arvore.h"
 
 using namespace std;
 

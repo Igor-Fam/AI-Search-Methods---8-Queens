@@ -21,6 +21,7 @@ public:
     void resetarArvore();
     void imprimeSolucao();
     bool backtracking(No *atual, int nivel);
+    bool buscaProfundidade(No* n, int nivel);
 };
 
 #endif

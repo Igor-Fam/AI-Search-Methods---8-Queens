@@ -39,9 +39,10 @@ void Arvore::iniciarBusca(){
     cout << "Escolha a busca: " << endl;
     cout << "1 - Backtracking" << endl;
     cout << "2 - Busca em largura" << endl;
+    cout << "3 - Busca em profundidade" << endl;
     cin >> busca;
 
-    while (busca < 1 || busca > 2)
+    while (busca < 1 || busca > 3)
     {
         cout << "Opçao invalida! Escolha outra opcao" << endl;
         cin >> busca;
@@ -58,13 +59,12 @@ void Arvore::iniciarBusca(){
     case 2:
         // buscaLargura();
         break;
+    case 3:
+        sucesso = buscaProfundidade(raiz, 0);
+        break;
     }
-    if (sucesso){
-        cout << "Busca retornada com sucesso!" << endl;
-        imprimeSolucao();
-    } else {
-        cout << "Busca retornada sem sucesso" << endl;
-    }
+
+    imprimeSolucao();
 }
 
 void Arvore::imprimeSolucao(){
@@ -79,8 +79,7 @@ void Arvore::imprimeSolucao(){
 
 bool Arvore::backtracking(No* atual, int nivel)
 {
-    bool noSolucao = atual->visitaNo();
-    if (noSolucao){
+    if (atual->visitaNo()){ //no atual é o no solucao
         solucao = atual->getTabuleiro();
         nivelSolucao = nivel;
         return true;
@@ -98,4 +97,26 @@ bool Arvore::backtracking(No* atual, int nivel)
         sucesso = backtracking(atual->getFilhos().back(), nivel+1);
     }
     return sucesso;
+}
+
+bool Arvore::buscaProfundidade(No* n, int nivel){
+    if(n->visitaNo()){
+        solucao = n->getTabuleiro();
+        nivelSolucao = nivel;
+        return true;
+    }
+
+    queue<int> regras = n->getRegras();
+    while (!regras.empty()){
+        n->adicionaNo(regras.front());
+        regras.pop();
+    }
+
+    for (No* f : n->getFilhos()){
+        if(buscaProfundidade(f, nivel+1)){
+            return true;
+        }
+    }
+
+    return false;
 }
