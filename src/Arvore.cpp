@@ -55,7 +55,7 @@ void Arvore::iniciarBusca(){
         // buscaLargura();
         break;
     case 3:
-        // buscaProfundidade();
+        buscaProfundidade();
         break;
     }
 }
@@ -76,10 +76,7 @@ bool Arvore::auxProfundidade(No* n){
         return true;
     }
 
-    vector<No*> filhos = n->getFilhos();
-
-    for (int i = filhos.size() - 1; i >= 0; i--){
-        No* f = filhos[i];
+    for (No* f : n->getFilhos()){
         if(auxProfundidade(f)){
             return true;
         }

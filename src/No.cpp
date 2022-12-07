@@ -46,7 +46,6 @@ bool No::visitaNo(int coluna){
             // cout << colunasFilhos[i] << " ";
             filhos.push_back(new No(this->tabuleiro->getLinha(), colunasFilhos[i], this->h, this->tabuleiro));
         }
-        cout << endl;
     }
     return false;
 }

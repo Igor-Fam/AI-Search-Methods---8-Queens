@@ -10,7 +10,7 @@ HPP_SOURCE=$(wildcard $(INC_DIR)/*.hpp)
 MAIN_SRC=main.cpp $(CPP_SOURCE)
 MAIN_HPP=$(HPP_SOURCE)
 
-build: main
+build: main.exe
 
-main: $(MAIN_SRC) $(MAIN_HPP)
+main.exe: $(MAIN_SRC) $(MAIN_HPP)
 	$(CC) $(CC_FLAGS) -o $@ $(MAIN_SRC) -I $(INC_DIR)
