@@ -40,10 +40,10 @@ bool No::visitaNo(int coluna){
     if(coluna == -1){ //nao e backtracking, gera todos os filhos
         vector<int> colunasFilhos = this->tabuleiro->verificaDisponiveis();
 
-        cout << "Posicoes possiveis na linha " << this->tabuleiro->getLinha()+1 << ": ";
+        // cout << "Posicoes possiveis na linha " << this->tabuleiro->getLinha()+1 << ": ";
         for (int i = 0; i < colunasFilhos.size(); i++)
         {
-            cout << colunasFilhos[i] << " ";
+            // cout << colunasFilhos[i] << " ";
             filhos.push_back(new No(this->tabuleiro->getLinha(), colunasFilhos[i], this->h, this->tabuleiro));
         }
         cout << endl;

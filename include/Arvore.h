@@ -17,6 +17,8 @@ public:
     void setarArvore();
     void resetarArvore();
     void imprimeSolucao();
+    void buscaProfundidade();
+    bool auxProfundidade(No* n);
 };
 
 #endif
