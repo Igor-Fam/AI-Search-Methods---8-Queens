@@ -49,8 +49,11 @@ bool No::visitaNo(){
     return false;
 }
 
-void No::adicionaNo(int coluna){
-    filhos.push_back(new No(this->tabuleiro->getLinha(), coluna, this->h, this->tabuleiro));
+No* No::adicionaNo(int coluna){
+    No* n = new No(this->tabuleiro->getLinha(), coluna, this->h, this->tabuleiro);
+    filhos.push_back(n);
+
+    return n;
 }
 
 void No::imprimeFilhos(){

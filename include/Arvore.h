@@ -3,6 +3,8 @@
 
 #include "No.h"
 #include "Tabuleiro.h"
+#include "NoFP.h"
+#include "FilaEncad.h"
 
 class Arvore
 {
@@ -22,6 +24,7 @@ public:
     void imprimeSolucao();
     bool backtracking(No *atual, int nivel);
     bool buscaProfundidade(No* n, int nivel);
+    bool buscaLargura();
 };
 
 #endif

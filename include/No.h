@@ -11,6 +11,8 @@ private:
     vector<No*> filhos;
     queue<int> regras;
     int h = 0; //heuristica
+    int nivel;
+    int Id;
 
 protected:
     Tabuleiro* tabuleiro;
@@ -20,12 +22,16 @@ public:
     No(int linha, int coluna, bool heuristica, Tabuleiro* t = nullptr);
     ~No();
     bool visitaNo(); //se passar coluna, gera apenas um filho (backtracking)
-    void adicionaNo(int coluna);
+    No* adicionaNo(int coluna);
     void imprimeFilhos();
     void imprimeTabuleiro(){tabuleiro->imprimeTabuleiro();};
     vector<No*> getFilhos(){ return filhos; };
     queue<int> getRegras(){ return regras; };
     Tabuleiro* getTabuleiro(){ return tabuleiro; };
+    int getNivel() {return nivel;};
+    void setNivel(int nivel) {this->nivel = nivel;};
+    int getId() {return Id;};
+    void setId(int id) {this->Id = id;};
 };
 
 
