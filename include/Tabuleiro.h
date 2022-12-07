@@ -2,6 +2,7 @@
 #define TABULEIRO_H
 
 #include <vector>
+#include <queue>
 
 #define N 8
 
@@ -24,7 +25,7 @@ public:
     bool verificaResolvido(){ return linha+1 == N; };
     bool verificaImpasse();
     void imprimeTabuleiro();
-    vector<int> verificaDisponiveis();
+    queue<int> verificaDisponiveis();
 };
 
 

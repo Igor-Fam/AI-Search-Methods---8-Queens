@@ -2,12 +2,15 @@
 #define ARVORE_H
 
 #include "No.h"
+#include "Tabuleiro.h"
 
 class Arvore
 {
 private:
     No* raiz;
     bool heuristica;
+    Tabuleiro *solucao;
+    int nivelSolucao;
 
 public:
     //heuristica ou sem heuristica
@@ -17,6 +20,7 @@ public:
     void setarArvore();
     void resetarArvore();
     void imprimeSolucao();
+    bool backtracking(No *atual, int nivel);
 };
 
 #endif

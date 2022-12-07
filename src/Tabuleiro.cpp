@@ -56,13 +56,13 @@ void Tabuleiro::imprimeTabuleiro(){
     }
 }
 
-vector<int> Tabuleiro::verificaDisponiveis(){
-    vector<int> disponiveis;
+queue<int> Tabuleiro::verificaDisponiveis(){
+    queue<int> disponiveis;
     
     for (int i = 0; i < N; i++)
     {
         if(matriz[linha+1][i] == 'F'){
-            disponiveis.push_back(i);
+            disponiveis.push(i);
         }
     }
     

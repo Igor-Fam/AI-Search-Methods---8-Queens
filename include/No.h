@@ -3,11 +3,13 @@
 
 #include "Tabuleiro.h"
 #include <vector>
+#include <queue>
 
 class No
 {
 private:
     vector<No*> filhos;
+    queue<int> regras;
     int h = 0; //heuristica
 
 protected:
@@ -17,10 +19,13 @@ public:
     //coluna a inserir rainha, heuristica ou não, estado anterior (se houver)
     No(int linha, int coluna, bool heuristica, Tabuleiro* t = nullptr);
     ~No();
-    bool visitaNo(int coluna = -1); //se passar coluna, gera apenas um filho (backtracking)
+    bool visitaNo(); //se passar coluna, gera apenas um filho (backtracking)
+    void adicionaNo(int coluna);
     void imprimeFilhos();
     void imprimeTabuleiro(){tabuleiro->imprimeTabuleiro();};
     vector<No*> getFilhos(){ return filhos; };
+    queue<int> getRegras(){ return regras; };
+    Tabuleiro* getTabuleiro(){ return tabuleiro; };
 };
 
 
