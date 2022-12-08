@@ -35,4 +35,4 @@ Legenda:
 
 * Q: Queen (rainha)
 
-Quando executado, o programa abrirá um menu que pedirá um número correspondente à busca que será realizada. A matriz solução será mostrada ao final da execução. É possível também limpar a busca atual e iniciar outra busca. 
+Quando executado, o programa abrirá um menu que pedirá um número correspondente à busca que será realizada. A matriz solução será mostrada ao final da execução. 
