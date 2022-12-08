@@ -12,7 +12,7 @@ make
 
 ### Para executar (Linux)
 ```
-./main
+./main.exe
 ```
 
 ### Como utilizar
