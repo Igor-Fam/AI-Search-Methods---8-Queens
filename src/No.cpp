@@ -60,13 +60,7 @@ bool No::visitaNo(){
 
     //gera regras aplicaveis
     regras = this->tabuleiro->verificaDisponiveis();
-
-    // cout << "Posicoes possiveis na linha " << this->tabuleiro->getLinha()+1 << ": ";
-    // for (int i = 0; i < colunasFilhos.size(); i++)
-    // {
-    //     cout << colunasFilhos[i] << " ";
-    //     adicionaNo(colunasFilhos[i]);
-    // }
+    
     return false;
 }
 

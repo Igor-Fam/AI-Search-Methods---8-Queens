@@ -14,6 +14,11 @@ Arvore::Arvore(bool heuristica){
     nivelSolucao = 0;
 }
 
+Arvore::~Arvore(){
+    delete raiz;
+    delete solucao;
+}
+
 void Arvore::resetarArvore(){
     delete raiz;
     setarArvore();
@@ -27,12 +32,8 @@ void Arvore::setarArvore(){
 
 void Arvore::iniciarBusca(){
     if (raiz != nullptr){
-        char escolha = 'N';
-        cout << "A árvore já tem nó raiz! Você deseja resetá-la e iniciar uma nova busca? [S/n]" << endl;
-        cin >> escolha;
-
-        if (escolha == 'S' || escolha == 's')
-            resetarArvore();
+        cout << "A árvore já tem nó raiz!" << endl;
+        return;
     }
 
     int busca;
@@ -50,19 +51,15 @@ void Arvore::iniciarBusca(){
 
     setarArvore();
     
-    bool sucesso = false;
     switch (busca)
     {
     case 1:
-        sucesso = backtracking(raiz, 0);
-        imprimeSolucao();
+        backtracking(raiz, 0);
         break;
     case 2:
         buscaLargura();
-        imprimeSolucao();
         break;
     case 3:
-        //sucesso = buscaProfundidade(raiz, 0);
         buscaProfundidade();
         break;
     }
@@ -78,58 +75,6 @@ void Arvore::imprimeSolucao(){
     }
 }
 
-void Arvore::buscaProfundidade(){
-    if (raiz == nullptr){
-        cout << "A arvore esta vazia!" << endl;
-        return;
-    }
-
-    PilhaEncad *abertos = new PilhaEncad();
-    NoFP *n = new NoFP(raiz);
-    abertos->empilha(n);
-    PilhaEncad *fechados = new PilhaEncad();
-    int cont = 0;
-    raiz->setId(cont);
-
-    cout << "Abertos: ";
-    abertos->imprime();
-    cout << "Fechados: ";
-    fechados->imprime();
-
-    cont += 1;
-
-    if(!auxProfundidade(abertos->getTopo()->getInfo(), abertos, fechados, &cont)){
-        cout << "Solucao nao encontrada!" << endl;
-    }
-}
-
-bool Arvore::auxProfundidade(No* n, PilhaEncad *abertos, PilhaEncad *fechados, int *cont){
-    if(n->visitaNo(-1)){
-        return true;
-    }
-
-    NoFP *aux = abertos->desempilha();
-    fechados->empilha(aux);
-    for (No* f : n->getFilhos()){
-        f->setId(*cont);
-        NoFP *faux = new NoFP(f);
-        abertos->empilha(faux);
-        *cont += 1;
-    }
-
-    cout << "Abertos: ";
-    abertos->imprime();
-    cout << "Fechados: ";
-    fechados->imprime();
-
-    for (No* f : n->getFilhos()){
-        if(auxProfundidade(abertos->getTopo()->getInfo(), abertos, fechados, cont)){
-            return true;
-        }
-    }
-
-    return false;
-}
 
 bool Arvore::backtracking(No* atual, int nivel)
 {
@@ -153,21 +98,54 @@ bool Arvore::backtracking(No* atual, int nivel)
     return sucesso;
 }
 
-bool Arvore::buscaProfundidade(No* n, int nivel){
-    if(n->visitaNo()){
+void Arvore::buscaProfundidade(){
+    if (raiz == nullptr){
+        cout << "A arvore esta vazia!" << endl;
+        return;
+    }
+
+    PilhaEncad *abertos = new PilhaEncad();
+    NoFP *n = new NoFP(raiz);
+    abertos->empilha(n);
+    PilhaEncad *fechados = new PilhaEncad();
+    int cont = 0;
+    raiz->setId(cont);
+
+    cout << "Abertos: ";
+    abertos->imprime();
+    cout << "Fechados: ";
+    fechados->imprime();
+
+    cont += 1;
+
+    if(!auxProfundidade(abertos->getTopo()->getInfo(), abertos, fechados, &cont, 0)){
+        cout << "Solucao nao encontrada!" << endl;
+    }
+}
+
+bool Arvore::auxProfundidade(No* n, PilhaEncad *abertos, PilhaEncad *fechados, int *cont, int nivel){
+    if(n->visitaNo(-1)){
         solucao = n->getTabuleiro();
         nivelSolucao = nivel;
         return true;
     }
 
-    queue<int> regras = n->getRegras();
-    while (!regras.empty()){
-        n->adicionaNo(regras.front());
-        regras.pop();
+    NoFP *aux = abertos->desempilha();
+    fechados->empilha(aux);
+    for (No* f : n->getFilhos()){
+        f->setId(*cont);
+        NoFP *faux = new NoFP(f);
+        abertos->empilha(faux);
+        *cont += 1;
     }
 
+    cout << "Abertos: ";
+    abertos->imprime();
+    cout << "Fechados: ";
+    fechados->imprime();
+
     for (No* f : n->getFilhos()){
-        if(buscaProfundidade(f, nivel+1)){
+        if(auxProfundidade(abertos->getTopo()->getInfo(), abertos, fechados, cont, nivel+1)){
             return true;
         }
     }

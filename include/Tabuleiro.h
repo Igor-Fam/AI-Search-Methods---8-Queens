@@ -18,7 +18,7 @@ private:
 public:
     friend class No;
     Tabuleiro(int linha, bool r = false);
-    ~Tabuleiro();
+    // ~Tabuleiro();
     int getLinha(){ return linha; };
     void setLinha(int linha){ this->linha = linha; };
     void adicionaRainha(int coluna);

@@ -24,9 +24,8 @@ public:
     void resetarArvore();
     void imprimeSolucao();
     void buscaProfundidade();
-    bool auxProfundidade(No* n, PilhaEncad *abertos, PilhaEncad *fechados, int *cont);
+    bool auxProfundidade(No* n, PilhaEncad *abertos, PilhaEncad *fechados, int *cont, int nivel);
     bool backtracking(No *atual, int nivel);
-    bool buscaProfundidade(No* n, int nivel);
     bool buscaLargura();
 };
 
