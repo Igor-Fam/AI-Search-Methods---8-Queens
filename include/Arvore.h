@@ -2,14 +2,18 @@
 #define ARVORE_H
 
 #include "No.h"
-#include "NoFP.h"
-#include "PilhaEncad.h"
 
+#include "PilhaEncad.h"
+#include "Tabuleiro.h"
+#include "NoFP.h"
+#include "FilaEncad.h"
 class Arvore
 {
 private:
     No* raiz;
     bool heuristica;
+    Tabuleiro *solucao;
+    int nivelSolucao;
 
 public:
     //heuristica ou sem heuristica
@@ -21,6 +25,9 @@ public:
     void imprimeSolucao();
     void buscaProfundidade();
     bool auxProfundidade(No* n, PilhaEncad *abertos, PilhaEncad *fechados, int *cont);
+    bool backtracking(No *atual, int nivel);
+    bool buscaProfundidade(No* n, int nivel);
+    bool buscaLargura();
 };
 
 #endif

@@ -15,8 +15,10 @@ No::No(int linha, int coluna, bool heuristica, Tabuleiro* t){
                 this->tabuleiro->matriz[i][j] = t->matriz[i][j];
     }
 
-    if (coluna != -1)
+
+    if (coluna >= 0){
         this->tabuleiro->adicionaRainha(coluna);
+    }
 
     if(heuristica){
         this->h = this->tabuleiro->h;
@@ -39,13 +41,40 @@ bool No::visitaNo(int coluna){
 
     //gera filhos
     if(coluna == -1){ //nao e backtracking, gera todos os filhos
-        vector<int> colunasFilhos = this->tabuleiro->verificaDisponiveis();
+        vector<int> colunasFilhos = this->tabuleiro->verificaDisponiveis1();
         for (int i = 0; i < colunasFilhos.size(); i++)
         {
             filhos.push_back(new No(this->tabuleiro->getLinha(), colunasFilhos[i], this->h, this->tabuleiro));
         }
     }
     return false;
+}
+
+bool No::visitaNo(){
+    //verifica se e solucao
+    if(this->tabuleiro->verificaResolvido()){
+        cout << "Solucao encontrada: " << endl << endl;
+        this->tabuleiro->imprimeTabuleiro();
+        return true;
+    }
+
+    //gera regras aplicaveis
+    regras = this->tabuleiro->verificaDisponiveis();
+
+    // cout << "Posicoes possiveis na linha " << this->tabuleiro->getLinha()+1 << ": ";
+    // for (int i = 0; i < colunasFilhos.size(); i++)
+    // {
+    //     cout << colunasFilhos[i] << " ";
+    //     adicionaNo(colunasFilhos[i]);
+    // }
+    return false;
+}
+
+No* No::adicionaNo(int coluna){
+    No* n = new No(this->tabuleiro->getLinha(), coluna, this->h, this->tabuleiro);
+    filhos.push_back(n);
+
+    return n;
 }
 
 void No::imprimeFilhos(){
