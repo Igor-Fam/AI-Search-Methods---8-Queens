@@ -55,17 +55,17 @@ void Arvore::iniciarBusca(){
     {
     case 1:
         sucesso = backtracking(raiz, 0);
+        imprimeSolucao();
         break;
     case 2:
         buscaLargura();
+        imprimeSolucao();
         break;
     case 3:
         //sucesso = buscaProfundidade(raiz, 0);
         buscaProfundidade();
         break;
     }
-
-    imprimeSolucao();
 }
 
 void Arvore::imprimeSolucao(){
