@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "../include/Arvore.h"
+#include "../include/No.h"
 
 using namespace std;
 
@@ -17,7 +18,7 @@ void Arvore::resetarArvore(){
 
 void Arvore::setarArvore(){
     if (raiz == nullptr){
-        raiz = new No(0, 0, heuristica);
+        raiz = new No(-1, -1, heuristica);
     }
 }
 
@@ -66,18 +67,46 @@ void Arvore::buscaProfundidade(){
         return;
     }
 
-    if(!auxProfundidade(raiz)){
+    PilhaEncad *abertos = new PilhaEncad();
+    NoFP *n = new NoFP(raiz);
+    abertos->empilha(n);
+    PilhaEncad *fechados = new PilhaEncad();
+    int cont = 0;
+    raiz->setId(cont);
+
+    cout << "Abertos: ";
+    abertos->imprime();
+    cout << "Fechados: ";
+    fechados->imprime();
+
+    cont += 1;
+
+    if(!auxProfundidade(abertos->getTopo()->getInfo(), abertos, fechados, &cont)){
         cout << "Solucao nao encontrada!" << endl;
     }
 }
 
-bool Arvore::auxProfundidade(No* n){
+bool Arvore::auxProfundidade(No* n, PilhaEncad *abertos, PilhaEncad *fechados, int *cont){
     if(n->visitaNo()){
         return true;
     }
 
+    NoFP *aux = abertos->desempilha();
+    fechados->empilha(aux);
     for (No* f : n->getFilhos()){
-        if(auxProfundidade(f)){
+        f->setId(*cont);
+        NoFP *faux = new NoFP(f);
+        abertos->empilha(faux);
+        *cont += 1;
+    }
+
+    cout << "Abertos: ";
+    abertos->imprime();
+    cout << "Fechados: ";
+    fechados->imprime();
+
+    for (No* f : n->getFilhos()){
+        if(auxProfundidade(abertos->getTopo()->getInfo(), abertos, fechados, cont)){
             return true;
         }
     }

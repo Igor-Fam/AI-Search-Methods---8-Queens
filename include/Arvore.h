@@ -2,6 +2,8 @@
 #define ARVORE_H
 
 #include "No.h"
+#include "NoFP.h"
+#include "PilhaEncad.h"
 
 class Arvore
 {
@@ -18,7 +20,7 @@ public:
     void resetarArvore();
     void imprimeSolucao();
     void buscaProfundidade();
-    bool auxProfundidade(No* n);
+    bool auxProfundidade(No* n, PilhaEncad *abertos, PilhaEncad *fechados, int *cont);
 };
 
 #endif

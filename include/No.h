@@ -7,8 +7,9 @@
 class No
 {
 private:
-    vector<No*> filhos;
+    vector <No*> filhos;
     int h = 0; //heuristica
+    int Id;
 
 protected:
     Tabuleiro* tabuleiro;
@@ -21,9 +22,9 @@ public:
     void imprimeFilhos();
     void imprimeTabuleiro(){tabuleiro->imprimeTabuleiro();};
     vector<No*> getFilhos(){ return filhos; };
+    int getId() {return Id;};
+    void setId(int id) {this->Id = id;};
+    Tabuleiro* getTabuleiro(){return tabuleiro;};
 };
-
-
-
 
 #endif
