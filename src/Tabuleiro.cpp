@@ -25,7 +25,7 @@ void Tabuleiro::adicionaRainha(int coluna){
 
     if(matriz[linha][coluna] != 'F'){
         if(this->ignorarRestricoes){
-            this->h = this->h+2;
+            this->atualizaHeuristica();
         } else {
             cout << "Posicao indisponivel!" << endl;
             return;
@@ -82,6 +82,16 @@ vector<int> Tabuleiro::verificaDisponiveis1(){
     return disponiveis;
 }
 
+
+void Tabuleiro::verificaColunaRainha(){
+    for(int i = 0; i < N; i++){
+        if(matriz[linha][i] == 'Q'){
+            this->colunaRainha = i;
+            break;
+        }
+    }
+}
+
 bool Tabuleiro::verificaImpasse(){
     for (int i = 0; i < N; i++){
         if(matriz[linha+1][i] == 'F'){
@@ -89,4 +99,8 @@ bool Tabuleiro::verificaImpasse(){
         }
     }
     return true;
+}
+
+void Tabuleiro::atualizaHeuristica(){
+    this->h = this->h+2;
 }

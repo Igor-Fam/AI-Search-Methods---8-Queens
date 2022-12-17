@@ -13,6 +13,7 @@ class Tabuleiro
 private:
     char matriz [N][N];
     int linha;
+    int colunaRainha;
     bool ignorarRestricoes;
     int h;
 public:
@@ -27,18 +28,8 @@ public:
     void imprimeTabuleiro();
     queue<int> verificaDisponiveis();
     vector<int> verificaDisponiveis1();
+    void atualizaHeuristica();
+    void verificaColunaRainha();
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif

@@ -14,6 +14,7 @@ private:
     int h = 0; //heuristica
     int nivel;
     int Id;
+    int custo;
 
 protected:
     Tabuleiro* tabuleiro;
@@ -35,7 +36,8 @@ public:
     void setNivel(int nivel) {this->nivel = nivel;};
     int getId() {return Id;};
     void setId(int id) {this->Id = id;};
-
+    int calculaHeuristica();
+    void calculaCusto(int coluna);
 };
 
 #endif

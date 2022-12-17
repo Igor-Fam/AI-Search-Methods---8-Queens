@@ -17,6 +17,7 @@ No::No(int linha, int coluna, bool heuristica, Tabuleiro* t){
 
 
     if (coluna >= 0){
+        this->calculaCusto(coluna);
         this->tabuleiro->adicionaRainha(coluna);
     }
 
@@ -78,3 +79,30 @@ void No::imprimeFilhos(){
         filhos[i]->tabuleiro->imprimeTabuleiro();
     } 
 }
+
+int No::calculaHeuristica(){
+    return this->tabuleiro->h;
+}
+
+void No::calculaCusto(int colunaAtual){
+    this->tabuleiro->verificaColunaRainha();
+    int colunaAnterior = this->tabuleiro->colunaRainha;
+    this->custo = N-1 - abs(colunaAnterior-colunaAtual);
+}
+
+/*
+
+Custo do no atual = 
+Q A A A A A A A
+7 6 5 4 3 2 1 0
+
+A Q A A A A A A
+6 7 6 5 4 3 2 1
+
+A A Q A A A A A
+5 6 7 6 5 4 3 2
+
+A A A Q A A A A
+4 5 6 7 6 5 4 3
+
+*/
