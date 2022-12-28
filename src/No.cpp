@@ -9,12 +9,14 @@ using namespace std;
 No::No(int linha, int coluna, bool heuristica, Tabuleiro* t){
     this->tabuleiro = new Tabuleiro(linha, heuristica);
     if(t != nullptr){
+        this->tabuleiro->quantF = t->getQuantF();
+        this->tabuleiro->quantA = t->getQuantA();
+        this->tabuleiro->quantQ = t->getQuantQ();
         this->tabuleiro->setLinha(t->getLinha()+1);
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++)
                 this->tabuleiro->matriz[i][j] = t->matriz[i][j];
     }
-
 
     if (coluna >= 0){
         this->calculaCusto(coluna);
@@ -87,7 +89,7 @@ int No::calculaHeuristica(){
 void No::calculaCusto(int colunaAtual){
     this->tabuleiro->verificaColunaRainha();
     int colunaAnterior = this->tabuleiro->colunaRainha;
-    this->custo = N-1 - abs(colunaAnterior-colunaAtual);
+    this->custo = N - 1 - abs(colunaAnterior-colunaAtual);
 }
 
 /*

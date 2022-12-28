@@ -15,6 +15,7 @@ private:
     int linha;
     int colunaRainha;
     bool ignorarRestricoes;
+    int quantA, quantF, quantQ;
     int h;
 public:
     friend class No;
@@ -30,6 +31,9 @@ public:
     vector<int> verificaDisponiveis1();
     void atualizaHeuristica();
     void verificaColunaRainha();
+    int getQuantF() { return quantF; };
+    int getQuantA() { return quantA; };
+    int getQuantQ() { return quantQ; };
 };
 
 #endif

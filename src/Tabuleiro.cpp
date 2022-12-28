@@ -15,6 +15,9 @@ Tabuleiro::Tabuleiro(int linha, bool r){
     }
     this->linha = linha;
     this->ignorarRestricoes = r;
+    this->quantF = N * N;
+    this->quantA = 0;
+    this->quantQ = 0;
 }
 
 void Tabuleiro::adicionaRainha(int coluna){
@@ -32,17 +35,24 @@ void Tabuleiro::adicionaRainha(int coluna){
         }
     }
 
+    if(matriz[linha][coluna] != 'Q'){
+        matriz[linha][coluna] = 'Q';
+        quantQ += 1;
+        quantF -= 1;
+    }
+
     for (int i = linha; i < N; i++)
     {
         for (int j = 0; j < N; j++)
         {
-            if(i == linha || j == coluna || j - coluna == i - linha || j - coluna == linha - i){
+            if((i == linha || j == coluna || j - coluna == i - linha || j - coluna == linha - i) & (matriz[i][j] != 'A' & matriz[i][j] != 'Q')){
                 matriz[i][j] = 'A';
+                quantA += 1;
+                quantF -= 1;
             }
         }
     }
     
-    matriz[linha][coluna] = 'Q';
 }
 
 void Tabuleiro::imprimeTabuleiro(){
@@ -54,6 +64,11 @@ void Tabuleiro::imprimeTabuleiro(){
         }
         cout << endl;
     }
+    cout << "QuantF: " << quantF << endl;
+    cout << "QuantA: " << quantA << endl;
+    cout << "QuantQ: " << quantQ << endl;
+    cout << "Total esperado: " << N * N << endl;
+    cout << "Total obtido com a soma: " << quantF + quantA + quantQ << endl;
 }
 
 queue<int> Tabuleiro::verificaDisponiveis(){
