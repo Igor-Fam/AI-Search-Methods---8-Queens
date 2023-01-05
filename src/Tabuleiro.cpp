@@ -14,7 +14,6 @@ Tabuleiro::Tabuleiro(int linha, bool r){
         }
     }
     this->linha = linha;
-    this->ignorarRestricoes = r;
     this->quantF = N * N;
     this->quantA = 0;
     this->quantQ = 0;
@@ -27,12 +26,8 @@ void Tabuleiro::adicionaRainha(int coluna){
     }
 
     if(matriz[linha][coluna] != 'F'){
-        if(this->ignorarRestricoes){
-            this->atualizaHeuristica();
-        } else {
-            cout << "Posicao indisponivel!" << endl;
-            return;
-        }
+        cout << "Posicao indisponível!" << endl;
+        return;
     }
 
     if(matriz[linha][coluna] != 'Q'){
@@ -68,7 +63,7 @@ void Tabuleiro::imprimeTabuleiro(){
     cout << "QuantA: " << quantA << endl;
     cout << "QuantQ: " << quantQ << endl;
     cout << "Total esperado: " << N * N << endl;
-    cout << "Total obtido com a soma: " << quantF + quantA + quantQ << endl;
+    cout << "Total da solucao: " << quantF + quantA + quantQ << endl;
 }
 
 queue<int> Tabuleiro::verificaDisponiveis(){
@@ -114,8 +109,4 @@ bool Tabuleiro::verificaImpasse(){
         }
     }
     return true;
-}
-
-void Tabuleiro::atualizaHeuristica(){
-    this->h = this->h+2;
 }

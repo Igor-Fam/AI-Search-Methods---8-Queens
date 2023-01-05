@@ -11,10 +11,11 @@ private:
 
     vector<No*> filhos;
     queue<int> regras;
-    int h = 0; //heuristica
     int nivel;
     int Id;
     int custo;
+    int custoHeur = 1000; //heuristica
+    int custoStar = 1000;
 
 protected:
     Tabuleiro* tabuleiro;
@@ -24,8 +25,8 @@ public:
     No(int linha, int coluna, bool heuristica, Tabuleiro* t = nullptr);
     ~No();
     bool visitaNo(); //se passar coluna, gera apenas um filho (backtracking)
-    bool visitaNo(int coluna);
-    No* adicionaNo(int coluna);
+    bool visitaNo(int coluna,  bool temHeuristica = false);
+    No* adicionaNo(int coluna,  bool temHeuristica = false);
     void imprimeFilhos();
     void imprimeTabuleiro(){tabuleiro->imprimeTabuleiro();};
     vector<No*> getFilhos(){ return filhos; };
@@ -36,8 +37,10 @@ public:
     void setNivel(int nivel) {this->nivel = nivel;};
     int getId() {return Id;};
     void setId(int id) {this->Id = id;};
-    int calculaHeuristica();
+    void calculaHeuristica();
     void calculaCusto(int coluna);
+    void calculaCustoEstrela();
+
 };
 
 #endif

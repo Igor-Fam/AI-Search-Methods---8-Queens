@@ -14,9 +14,8 @@ private:
     char matriz [N][N];
     int linha;
     int colunaRainha;
-    bool ignorarRestricoes;
     int quantA, quantF, quantQ;
-    int h;
+
 public:
     friend class No;
     Tabuleiro(int linha, bool r = false);
