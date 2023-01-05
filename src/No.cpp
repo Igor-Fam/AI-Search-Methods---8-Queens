@@ -6,7 +6,7 @@
 
 using namespace std;
 
-No::No(int linha, int coluna, bool heuristica, Tabuleiro* t){
+No::No(int linha, int coluna, bool heuristica, bool aEstrela, Tabuleiro* t){
     //Desnecessário fazer posicionamento ignorando as restrições, apenas a heuristica precisa levar isso em conta pro seu cálculo, como não posicionamos em uma, o fator 10*(8-rainhasPoscionadas) garante que o custo vai ser mais alto que resto (se 10 for muito alto, diminuir)
     this->tabuleiro = new Tabuleiro(linha);
     if(t != nullptr){
@@ -28,9 +28,9 @@ No::No(int linha, int coluna, bool heuristica, Tabuleiro* t){
         if(heuristica){
             this->calculaHeuristica();
         }
-        /*if(aEstrela){
+        if(aEstrela){
             this->calculaCustoEstrela() ;
-        }*/
+        }
     }
 
 }
@@ -40,7 +40,7 @@ No::~No(){
         delete filhos[i];
 }
 
-bool No::visitaNo(int coluna, bool temHeuristica){
+bool No::visitaNo(int coluna, bool temHeuristica, bool aEstrela){
 
     //verifica se e solucao
     if(this->tabuleiro->verificaResolvido()){
@@ -54,7 +54,7 @@ bool No::visitaNo(int coluna, bool temHeuristica){
         vector<int> colunasFilhos = this->tabuleiro->verificaDisponiveis1();
         for (int i = 0; i < colunasFilhos.size(); i++)
         {
-            filhos.push_back(new No(this->tabuleiro->getLinha(), colunasFilhos[i], temHeuristica, this->tabuleiro));
+            filhos.push_back(new No(this->tabuleiro->getLinha(), colunasFilhos[i], temHeuristica, aEstrela, this->tabuleiro));
         }
     }
     return false;
@@ -74,8 +74,8 @@ bool No::visitaNo(){
     return false;
 }
 
-No* No::adicionaNo(int coluna, bool temHeuristica){
-    No* n = new No(this->tabuleiro->getLinha(), coluna, temHeuristica, this->tabuleiro);
+No* No::adicionaNo(int coluna, bool temHeuristica, bool aEstrela){
+    No* n = new No(this->tabuleiro->getLinha(), coluna, temHeuristica, aEstrela, this->tabuleiro);
     filhos.push_back(n);
 
     return n;
