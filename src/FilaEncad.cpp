@@ -72,14 +72,22 @@ NoFP *FilaEncad::desenfileira()
     }
 }
 
-void FilaEncad::imprime()
+void FilaEncad::imprime(bool temHeuristica, bool eAEstrela)
 {
     if (inicio != NULL)
     {
         NoFP *p = inicio;
         while (p != NULL)
         {
-            cout << p->getInfo()->getId() << " ("  << p->getInfo()->getCusto() << ") , ";
+            if(temHeuristica && eAEstrela){
+                cout << p->getInfo()->getId() << " ("  << p->getInfo()->getCustoStar() << ") , ";
+            }
+            if(temHeuristica && !eAEstrela){
+                cout << p->getInfo()->getId() << " ("  << p->getInfo()->getCustoHeur() << ") , ";
+            }
+            else{
+                cout << p->getInfo()->getId() << " ("  << p->getInfo()->getCusto() << ") , ";
+            }
             p = p->getProx();
         }
         cout << endl;

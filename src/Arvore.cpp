@@ -42,9 +42,11 @@ void Arvore::iniciarBusca(){
     cout << "2 - Busca em largura" << endl;
     cout << "3 - Busca em profundidade" << endl;
     cout << "4 - Busca Ordenada" << endl;
+    cout << "5 - Busca Gulosa" << endl;
+    cout << "6 - Busca A*" << endl;
     cin >> busca;
 
-    while (busca < 1 || busca > 4)
+    while (busca < 1 || busca > 6)
     {
         cout << "Opçao invalida! Escolha outra opcao" << endl;
         cin >> busca;
@@ -65,6 +67,12 @@ void Arvore::iniciarBusca(){
         break;
     case 4:
         buscaOrdenada();
+        break;
+    case 5:
+        buscaGulosa();
+        break;
+    case 6:
+        buscaAestrela();
         break;
     }
 }
@@ -273,11 +281,10 @@ void Arvore::buscasInformadas(bool temHeuristica, bool eAEstrela) {
     FilaEncad *fechados = new FilaEncad();
 
     cout << "Abertos: ";
-    abertos->imprime();
+    abertos->imprime(temHeuristica, eAEstrela);
     cout << "Fechados: ";
-    fechados->imprime();
+    fechados->imprime(temHeuristica, eAEstrela);
     cout << endl;
-
 
     int cont = 1;
     int nivel = 0;
@@ -290,50 +297,45 @@ void Arvore::buscasInformadas(bool temHeuristica, bool eAEstrela) {
 
 bool Arvore::auxBuscasInformadas(No* n, FilaEncad *abertos, FilaEncad *fechados, bool temHeuristica, bool eAEstrela, int *cont, int nivel, int custoAcumulado) {
 
-    //Ordena as filas de acordo com o custo critério
-    if (eAEstrela)
-    {
-        //orderby(custoStar)
+    if(n->visitaNo(-1, temHeuristica, eAEstrela)){
+        solucao = n->getTabuleiro();
+        nivelSolucao = nivel;
+        return true;
     }
-    if (temHeuristica)
-    {
-        //orderby(custoHeur)
+
+    NoFP *aux = abertos->desenfileira();
+    fechados->enfileira(aux);
+    for (No* f : n->getFilhos()){
+        f->setId(*cont);
+        NoFP *faux = new NoFP(f);
+        abertos->enfileira(faux);
+        *cont += 1;
     }
-    else
-    {
-        if(n->visitaNo(-1)){
-            solucao = n->getTabuleiro();
-            nivelSolucao = nivel;
+
+    quickSort(abertos);
+
+    cout << "Abertos: ";
+    abertos->imprime(temHeuristica, eAEstrela);
+    cout << "Fechados: ";
+    fechados->imprime(temHeuristica, eAEstrela);
+
+    for (No* f : n->getFilhos()){
+        int custoTemp = aux->getInfo()->getCusto();
+        if (temHeuristica)
+        {
+            int custoTemp = aux->getInfo()->getCustoHeur();
+        }
+        if (eAEstrela)
+        {
+            int custoTemp = aux->getInfo()->getCustoStar();
+        }
+        if(auxBuscasInformadas(abertos->getInicio()->getInfo(), abertos, fechados, temHeuristica, eAEstrela, cont, nivel+1, custoAcumulado + custoTemp)){
             return true;
         }
-
-        NoFP *aux = abertos->desenfileira();
-        fechados->enfileira(aux);
-        for (No* f : n->getFilhos()){
-            f->setId(*cont);
-            NoFP *faux = new NoFP(f);
-            abertos->enfileira(faux);
-            *cont += 1;
-        }
-
-        quickSort(abertos);
-
-        cout << "Abertos: ";
-        abertos->imprime();
-        cout << "Fechados: ";
-        fechados->imprime();
-
-        for (No* f : n->getFilhos()){
-            if(auxBuscasInformadas(abertos->getInicio()->getInfo(), abertos, fechados, temHeuristica, eAEstrela, cont, nivel+1, custoAcumulado + aux->getInfo()->getCusto())){
-                return true;
-            }
-        }
-
-        return false;
-
     }
 
     return false;
+
 }
 
 void Arvore::quickSort(FilaEncad *abertos)

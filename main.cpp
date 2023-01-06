@@ -9,7 +9,7 @@ using namespace std;
 
 int main(){
     // Cria arvore sem heuristica
-    Arvore* a = new Arvore(false);
+    Arvore* a = new Arvore(true);
     a->iniciarBusca();
     // a->imprimeSolucao();
     // a->buscasInformadas(false, false);

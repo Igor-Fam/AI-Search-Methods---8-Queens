@@ -14,8 +14,8 @@ private:
     int nivel;
     int Id;
     int custo;
-    int custoHeur = 1000; //heuristica
-    int custoStar = 1000;
+    int custoHeur = 0; //heuristica
+    int custoStar = 0;
 
 protected:
     Tabuleiro* tabuleiro;
@@ -37,6 +37,7 @@ public:
     void setNivel(int nivel) {this->nivel = nivel;};
     int getId() {return Id;};
     void setId(int id) {this->Id = id;};
+
     int getCusto() {return custo;};
     int getCustoHeur() {return custoHeur;};
     int getCustoStar() {return custoStar;};

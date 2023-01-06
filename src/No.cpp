@@ -30,7 +30,7 @@ No::No(int linha, int coluna, bool heuristica, bool aEstrela, Tabuleiro* t){
             this->calculaHeuristica();
         }
         if(aEstrela){
-            this->calculaCustoEstrela() ;
+            this->calculaCustoEstrela();
         }
     }
 
@@ -94,12 +94,14 @@ void No::calculaHeuristica(){
     int casasVazias = this->tabuleiro->getQuantF();
     int casasAtacadas = this->tabuleiro->getQuantA();
     int rainhasPosicionadas = this->tabuleiro->getQuantQ();
+
     this->custoHeur = casasVazias + casasVazias*casasAtacadas + 10*(8 - rainhasPosicionadas);
 }
 
 void No::calculaCusto(int colunaAtual){
     this->tabuleiro->verificaColunaRainha();
     int colunaAnterior = this->tabuleiro->colunaRainha;
+    
     this->custo = N - 1 - abs(colunaAnterior-colunaAtual);
 }
 
