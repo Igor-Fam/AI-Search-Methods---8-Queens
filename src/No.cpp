@@ -17,6 +17,7 @@ No::No(int linha, int coluna, bool heuristica, bool aEstrela, Tabuleiro* t){
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++)
                 this->tabuleiro->matriz[i][j] = t->matriz[i][j];
+
     }
 
     //ideal: obter custo e custoHeur com apenas uma passagem pela matriz pra n ter de criar 2x cada filho na busca A*

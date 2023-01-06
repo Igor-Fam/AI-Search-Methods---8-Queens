@@ -9,6 +9,7 @@ class FilaEncad
 private:
     NoFP *inicio;
     NoFP *fim;      /// ponteiros para os No's extremos
+    int tam;
 public:
     FilaEncad();
     ~FilaEncad();
@@ -17,6 +18,9 @@ public:
     NoFP* desenfileira();        /// elimina No do inicio
     bool vazia();     
     void imprime();         /// verifica se fila esta vazia
+    NoFP* get(int k);
+    int getTam(){return this->tam;};
+    void setTam(){this->tam += 1;};
 };
 
 #endif // FILAENCAD_H_INCLUDED

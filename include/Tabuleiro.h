@@ -4,7 +4,7 @@
 #include <vector>
 #include <queue>
 
-#define N 8
+#define N 4
 
 using namespace std;
 

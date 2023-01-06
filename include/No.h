@@ -22,7 +22,7 @@ protected:
 
 public:
     //coluna a inserir rainha, heuristica ou não, estado anterior (se houver)
-    No(int linha, int coluna, bool heuristica, bool aEstrela, Tabuleiro* t = nullptr);
+    No(int linha, int coluna, bool heuristica, bool aEstrela = false, Tabuleiro* t = nullptr);
     ~No();
     bool visitaNo(); //se passar coluna, gera apenas um filho (backtracking)
     bool visitaNo(int coluna,  bool temHeuristica = false, bool aEstrela = false);
@@ -37,6 +37,10 @@ public:
     void setNivel(int nivel) {this->nivel = nivel;};
     int getId() {return Id;};
     void setId(int id) {this->Id = id;};
+    int getCusto() {return custo;};
+    int getCustoHeur() {return custoHeur;};
+    int getCustoStar() {return custoStar;};
+    void setCusto(int custo) {this->custo = custo;};
     void calculaHeuristica();
     void calculaCusto(int coluna);
     void calculaCustoEstrela();

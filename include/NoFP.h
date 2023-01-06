@@ -7,7 +7,6 @@ class NoFP
 private:
     NoFP *prox;
     No *info;
-
 public:
     NoFP(No *n){info = n;};
     ~NoFP(){};

@@ -11,6 +11,7 @@ int main(){
     // Cria arvore sem heuristica
     Arvore* a = new Arvore(false);
     a->iniciarBusca();
-    a->imprimeSolucao();
+    // a->imprimeSolucao();
+    // a->buscasInformadas(false, false);
 }
 

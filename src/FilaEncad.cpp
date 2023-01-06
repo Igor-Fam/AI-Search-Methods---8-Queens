@@ -8,6 +8,7 @@ FilaEncad::FilaEncad()
 {
     inicio = NULL;
     fim = NULL;
+    tam = 0;
 }
 
 FilaEncad::~FilaEncad()
@@ -38,6 +39,7 @@ void FilaEncad::enfileira(NoFP *n)
     else
         fim->setProx(n);
     fim = n;
+    setTam();
 }
 
 NoFP *FilaEncad::getInicio()
@@ -60,6 +62,7 @@ NoFP *FilaEncad::desenfileira()
         inicio = p->getProx();
         if (inicio == NULL)
             fim = NULL;
+        tam -= 1;
         return p;
     }
     else
@@ -76,9 +79,28 @@ void FilaEncad::imprime()
         NoFP *p = inicio;
         while (p != NULL)
         {
-            cout << p->getInfo()->getId() << ", ";
+            cout << p->getInfo()->getId() << " ("  << p->getInfo()->getCusto() << ") , ";
             p = p->getProx();
         }
         cout << endl;
+    }
+}
+
+NoFP* FilaEncad::get(int k)
+{
+    NoFP *p = inicio;
+    int i = 0;
+    while (i < k && p != NULL)
+    {
+        i++;
+        p = p->getProx();
+    }
+    if (p == NULL)
+    {
+        cout << "ERRO: Indice inválido!" << endl;
+        exit(1);
+    }
+    else {
+        return p;
     }
 }

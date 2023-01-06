@@ -41,9 +41,10 @@ void Arvore::iniciarBusca(){
     cout << "1 - Backtracking" << endl;
     cout << "2 - Busca em largura" << endl;
     cout << "3 - Busca em profundidade" << endl;
+    cout << "4 - Busca Ordenada" << endl;
     cin >> busca;
 
-    while (busca < 1 || busca > 3)
+    while (busca < 1 || busca > 4)
     {
         cout << "Opçao invalida! Escolha outra opcao" << endl;
         cin >> busca;
@@ -61,6 +62,9 @@ void Arvore::iniciarBusca(){
         break;
     case 3:
         buscaProfundidade();
+        break;
+    case 4:
+        buscaOrdenada();
         break;
     }
 }
@@ -212,9 +216,10 @@ bool Arvore::buscaLargura(){
 
             cout << "Abertos: ";
             abertos->imprime();
+            quickSort(abertos);
+            abertos->imprime();
             cout << "Fechados: ";
             fechados->imprime();
-
         }
     }
 
@@ -248,9 +253,15 @@ void Arvore::buscaAestrela(){
 
 void Arvore::buscasInformadas(bool temHeuristica, bool eAEstrela) {
 
+    if (raiz == nullptr){
+        cout << "A arvore esta vazia!" << endl;
+        return;
+    }
+
     No *S = raiz;
     S->setNivel(0);
     S->setId(0);
+    S->setCusto(0);
     No *n = S;
 
     NoFP *nf = new NoFP(n);
@@ -261,143 +272,128 @@ void Arvore::buscasInformadas(bool temHeuristica, bool eAEstrela) {
 
     FilaEncad *fechados = new FilaEncad();
 
-    bool fracasso = false;
-    bool sucesso = false;
+    cout << "Abertos: ";
+    abertos->imprime();
+    cout << "Fechados: ";
+    fechados->imprime();
+    cout << endl;
+
 
     int cont = 1;
+    int nivel = 0;
+    int custoAcumulado = 0;
 
-    auxBuscasInformadas(temHeuristica, eAEstrela, &cont);
-
+    if(!auxBuscasInformadas(abertos->getInicio()->getInfo(), abertos, fechados, temHeuristica, eAEstrela, &cont, nivel, custoAcumulado)){
+        cout << "Solucao nao encontrada!" << endl;
+    }
 }
 
-bool Arvore::auxBuscasInformadas(bool temHeuristica, bool eAEstrela, int *cont) {
+bool Arvore::auxBuscasInformadas(No* n, FilaEncad *abertos, FilaEncad *fechados, bool temHeuristica, bool eAEstrela, int *cont, int nivel, int custoAcumulado) {
 
     //Ordena as filas de acordo com o custo critério
     if (eAEstrela)
     {
         //orderby(custoStar)
     }
-    if (eAEstrela)
+    if (temHeuristica)
     {
         //orderby(custoHeur)
     }
     else
     {
-        //orderby(custo)
+        if(n->visitaNo(-1)){
+            solucao = n->getTabuleiro();
+            nivelSolucao = nivel;
+            return true;
+        }
+
+        NoFP *aux = abertos->desenfileira();
+        fechados->enfileira(aux);
+        for (No* f : n->getFilhos()){
+            f->setId(*cont);
+            NoFP *faux = new NoFP(f);
+            abertos->enfileira(faux);
+            *cont += 1;
+        }
+
+        quickSort(abertos);
+
+        cout << "Abertos: ";
+        abertos->imprime();
+        cout << "Fechados: ";
+        fechados->imprime();
+
+        for (No* f : n->getFilhos()){
+            if(auxBuscasInformadas(abertos->getInicio()->getInfo(), abertos, fechados, temHeuristica, eAEstrela, cont, nivel+1, custoAcumulado + aux->getInfo()->getCusto())){
+                return true;
+            }
+        }
+
+        return false;
+
     }
 
     return false;
 }
 
+void Arvore::quickSort(FilaEncad *abertos)
+{
+    int n = abertos->getTam();
+    auxQuickSort(abertos, 0, n - 1);
+}
 
-// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+void Arvore::auxQuickSort(FilaEncad *abertos, int p, int q)
+{
+    //Verificando se o início é maior que o final
+    if (p < q)
+    {
+        //Começando o particionamento para iniciar o valor de j
+        int j = particionamento(abertos, p, q);
+        //Chamadas recursivas para dividir a lista e particioná-la
+        auxQuickSort(abertos, p, j - 1);
+        auxQuickSort(abertos, j + 1, q);
+    }
+}
 
+int Arvore::particionamento(FilaEncad *abertos, int p, int q)
+{
+    int i = p - 1, j = q;
+    //Escolhe o ponteiro
+    int v = abertos->get(q)->getInfo()->getCusto();
 
-// void ListaEncad::quickSort(int *comp, int *mov, float *tempo)
-// {
+    while (1)
+    {
+        //Percorrer o vetor até encontrar um elemento menor do que o pivô
+        while (abertos->get(++i)->getInfo()->getCusto() < v)
+        {
+        }
+        //Percorrer o vetor até encontrar um elemento maior do que o pivô
+        while (v < abertos->get(--j)->getInfo()->getCusto())
+        {
+            if (j == p)
+                break;
+        }
+        //Se os índices i e j se cruzarem o programa para
+        if (i >= j)
+            break;
+        //Troca o elemento da esquerda com o da direita
+        troca(abertos->get(i), abertos->get(j));
+    }
+    //Troca o elemento da esquerda com o último elemento
+    troca(abertos->get(i), abertos->get(q));
+    return i;
+}
 
-//     Art *A = new Art[n];
-//     Artists *p = primeiro;
+//Inverte os valores de dois objetos do tipo Art.
+void Arvore::troca(NoFP *a, NoFP *b)
+{
+    //Criando variável auxiliar
+    NoFP *aux = new NoFP(a->getInfo());
+    aux->setProx(a->getProx());
 
-//     //Iniciando a contagem do tempo
-//     t_ini = time(NULL);
+    //Passando os valores de b para a
+    a->setInfo(b->getInfo());
 
-//     //Copiando informações da lista para o vetor de struct
-//     for (int i = 0; i < n; i++)
-//     {
-//         strncpy(A[i].id, p->getId(), 22);
-//         A[i].genres = p->getGenres();
-//         A[i].name = p->getName();
-//         A[i].popularity = p->getPopularity();
-//         A[i].followers = p->getFollowers();
-//         A[i].tamName = p->getTamName();
-//         A[i].tamGenres = p->getTamGenres();
-//         A[i].tamPulaLinha = p->getTamPulaLinha();
-//         p = p->getProx();
-//     }
-
-//     //Chamando a função auxiliar para iniciar o quickSort
-//     auxQuickSort(A, 0, n - 1, comp, mov);
-
-//     //voltando o ponteiro para o inicial
-//     p = primeiro;
-
-//     //Passando as informações do vetor de struct para a lista
-//     for (int i = 0; i < n; i++)
-//     {
-//         p->setId(A[i].id);
-//         p->setGenres(A[i].genres);
-//         p->setName(A[i].name);
-//         p->setPopularity(A[i].popularity);
-//         p->setFollowers(A[i].followers);
-//         p->setTamGenres(A[i].tamGenres);
-//         p->setTamPulaLinha(A[i].tamPulaLinha);
-//         p->setTamName(A[i].tamName);
-//         p = p->getProx();
-//     }
-
-//     //Deletando vetor alocado
-//     delete[] A;
-
-//     cout << "Concluido!" << endl;
-
-//     //Fim da contagem do tempo
-//     t_fim = time(NULL);
-
-//     //Verificando se a lista está ordenada
-//     // ordenado();
-
-//     //Contando tempo necessário para execução
-//     *tempo = t_fim - t_ini;
-
-//     // cout << "Tempo para quickSort: " << *tempo << "s" << endl;
-// }
-
-// void ListaEncad::auxQuickSort(Art A[], int p, int q, int *comp, int *mov)
-// {
-//     //Verificando se o início é maior que o final
-//     if (p < q)
-//     {
-//         //Começando o particionamento para iniciar o valor de j
-//         int j = particionamento(A, p, q, comp, mov);
-//         //Chamadas recursivas para dividir a lista e particioná-la
-//         auxQuickSort(A, p, j - 1, comp, mov);
-//         auxQuickSort(A, j + 1, q, comp, mov);
-//     }
-// }
-
-// int ListaEncad::particionamento(Art A[], int p, int q, int *comp, int *mov)
-// {
-//     int i = p - 1, j = q;
-//     //Escolhe o ponteiro
-//     int v = A[q].followers;
-
-//     while (1)
-//     {
-//         //Percorrer o vetor até encontrar um elemento menor do que o pivô
-//         while (A[++i].followers < v)
-//         {
-//             (*comp)++;
-//         }
-//         //Percorrer o vetor até encontrar um elemento maior do que o pivô
-//         while (v < A[--j].followers)
-//         {
-//             if (j == p)
-//                 break;
-//             (*comp)++;
-//         }
-//         //Se os índices i e j se cruzarem o programa para
-//         if (i >= j)
-//             break;
-//         //Troca o elemento da esquerda com o da direita
-//         troca(&A[i], &A[j]);
-//         (*mov)++;
-//     }
-//     //Troca o elemento da esquerda com o último elemento
-//     troca(&A[i], &A[q]);
-//     (*mov)++;
-
-//     return i;
-// }
-
-
+    //passando os valores da variável auxiliar para b
+    b->setInfo(aux->getInfo());
+}

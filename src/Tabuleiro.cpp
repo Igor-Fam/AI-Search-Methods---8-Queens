@@ -94,12 +94,16 @@ vector<int> Tabuleiro::verificaDisponiveis1(){
 
 
 void Tabuleiro::verificaColunaRainha(){
+    bool temRainha = false;
     for(int i = 0; i < N; i++){
         if(matriz[linha][i] == 'Q'){
             this->colunaRainha = i;
+            temRainha = true;
             break;
         }
     }
+    if (!temRainha)
+        this->colunaRainha = 0;
 }
 
 bool Tabuleiro::verificaImpasse(){

@@ -26,12 +26,16 @@ public:
     void buscaOrdenada();
     void buscaGulosa();
     void buscaAestrela();
-    void buscasInformadas(bool temHeuristica, bool eAEstrela);
+    void buscasInformadas(bool temHeuristica = false, bool eAEstrela = false);
     void buscaProfundidade();
+    void quickSort(FilaEncad *abertos);
+    void auxQuickSort(FilaEncad *abertos, int p, int q);
+    void troca(NoFP *a, NoFP *b);
+    int particionamento(FilaEncad *abertos, int p, int q);
     bool auxProfundidade(No* n, PilhaEncad *abertos, PilhaEncad *fechados, int *cont, int nivel);
     bool backtracking(No *atual, int nivel);
     bool buscaLargura();
-    bool auxBuscasInformadas(bool temHeuristica, bool eAEstrela, int *cont);
+    bool auxBuscasInformadas(No* n, FilaEncad *abertos, FilaEncad *fechados, bool temHeuristica, bool eAEstrela, int *cont, int nivel=0, int custoAcumulado=0);
 
 };
 
