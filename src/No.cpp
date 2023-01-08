@@ -103,7 +103,7 @@ void No::calculaHeuristica(){
     int casasAtacadas = this->tabuleiro->getQuantA();
     int rainhasPosicionadas = this->tabuleiro->getQuantQ();
 
-    this->custoHeur = casasVazias + casasVazias*casasAtacadas + 10*(8 - rainhasPosicionadas);
+    this->custoHeur = casasVazias + casasVazias*casasAtacadas + 2*(8 - rainhasPosicionadas);
 }
 
 void No::calculaCusto(int colunaAtual){

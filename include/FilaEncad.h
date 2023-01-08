@@ -14,7 +14,7 @@ public:
     FilaEncad();
     ~FilaEncad();
     NoFP* getInicio();           /// retorna valor do primeiro No
-    void enfileira(NoFP* n);   /// insere No no fim
+    void enfileira(NoFP* n);     /// insere No no fim
     NoFP* desenfileira();        /// elimina No do inicio
     bool vazia();
     void imprime(bool temHeuristica=false, bool eAEstrela = false);         /// verifica se fila esta vazia
