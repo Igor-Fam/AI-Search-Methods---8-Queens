@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <numeric>
+#include <iterator>
 
 #include "../include/Tabuleiro.h"
 
@@ -47,10 +49,10 @@ void Tabuleiro::adicionaRainha(int coluna){
             }
         }
     }
-    
+
 }
 
-void Tabuleiro::imprimeTabuleiro(){
+void Tabuleiro::imprimeTabuleiro(bool temHeuristica, bool aEstrela){
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
@@ -64,31 +66,99 @@ void Tabuleiro::imprimeTabuleiro(){
     cout << "QuantQ: " << quantQ << endl;
     cout << "Total esperado: " << N * N << endl;
     cout << "Total da solucao: " << quantF + quantA + quantQ << endl;
+    imprimeCustoAcumulado(temHeuristica, aEstrela);
+}
+
+int Tabuleiro::somaCustoAcumulado(bool temHeuristica, bool aEstrela){
+    int soma = 0;
+    if(aEstrela){
+        soma = custoAcumuladoHeur[N-1];
+        //cout << "soma inicial: " << soma << endl;
+    }
+    if(temHeuristica && ! aEstrela){
+        return accumulate(std::begin(custoAcumuladoHeur) , std::end(custoAcumuladoHeur), soma);
+    }
+    return accumulate(std::begin(custoAcumulado) , std::end(custoAcumulado), soma);
+}
+
+void Tabuleiro::imprimeCustoAcumulado(bool temHeuristica, bool aEstrela){
+    cout << endl;
+    cout << "Custo Total da Solução: " << endl;
+    if(!aEstrela){
+        for (int i = 0; i < N; i++) {
+            if(i == 0){
+                cout << "(";
+            }
+
+            if(temHeuristica){
+                cout << custoAcumuladoHeur[i];
+            }
+            else{
+                cout << custoAcumulado[i];
+            }
+
+            if(i != N-1){
+                cout << ", ";
+            }
+            else{
+                cout << ")";
+            }
+        }
+    }
+    else {
+        cout << "Custos Normais da Solução: " << endl;
+        for (int i = 0; i < N; i++) {
+            if(i == 0){
+                cout << "(";
+            }
+            cout << custoAcumulado[i];
+            if(i != N-1){
+                cout << ", ";
+            }
+            else{
+                cout << ")";
+            }
+        }
+        cout << endl << "Custos Heuristicas da Solução: " << endl;
+        for (int j = 0; j < N; j++) {
+            if(j == 0){
+                cout << "(";
+            }
+            cout << custoAcumuladoHeur[j];
+            if(j != N-1){
+                cout << ", ";
+            }
+            else{
+                cout << ")";
+            }
+        }
+    }
+    cout << endl << "Somado: " << somaCustoAcumulado(temHeuristica, aEstrela) << endl;
 }
 
 queue<int> Tabuleiro::verificaDisponiveis(){
     queue<int> disponiveis;
-    
+
     for (int i = 0; i < N; i++)
     {
         if(matriz[linha+1][i] == 'F'){
             disponiveis.push(i);
         }
     }
-    
+
     return disponiveis;
 }
 
 vector<int> Tabuleiro::verificaDisponiveis1(){
     vector<int> disponiveis;
-    
+
     for (int i = 0; i < N; i++)
     {
         if(matriz[linha+1][i] == 'F'){
             disponiveis.push_back(i);
         }
     }
-    
+
     return disponiveis;
 }
 

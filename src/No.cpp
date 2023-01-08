@@ -13,6 +13,8 @@ No::No(int linha, int coluna, bool heuristica, bool aEstrela, Tabuleiro* t){
         this->tabuleiro->quantF = t->getQuantF();
         this->tabuleiro->quantA = t->getQuantA();
         this->tabuleiro->quantQ = t->getQuantQ();
+        this->tabuleiro->setCustoAcumulado(t->getCustoAcumulado());
+        this->tabuleiro->setCustoAcumuladoHeur(t->getCustoAcumuladoHeur());
         this->tabuleiro->setLinha(t->getLinha()+1);
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++)
@@ -26,11 +28,17 @@ No::No(int linha, int coluna, bool heuristica, bool aEstrela, Tabuleiro* t){
         this->tabuleiro->adicionaRainha(coluna);
         //Heuristica só é calculada depois do posicionamento da rainha nas colunas possíveis, pois teria de verificar os custosHeur de todos os filhos de qualquer maneira pra ordenar eles.
         //E além disso elimina a necessidade de verificar posição inválida
-        if(heuristica){
+        if(heuristica || aEstrela){
             this->calculaHeuristica();
         }
         if(aEstrela){
             this->calculaCustoEstrela();
+        }
+        if(this->tabuleiro->getQuantQ() >= 1){
+            this->tabuleiro->atualizaCustoAcumulado(this->getCusto());
+            if(heuristica || aEstrela){
+                this->tabuleiro->atualizaCustoAcumuladoHeur(this->getCustoHeur());
+            }
         }
     }
 
@@ -46,7 +54,7 @@ bool No::visitaNo(int coluna, bool temHeuristica, bool aEstrela){
     //verifica se e solucao
     if(this->tabuleiro->verificaResolvido()){
         cout << "Solucao encontrada: " << endl << endl;
-        this->tabuleiro->imprimeTabuleiro();
+        this->tabuleiro->imprimeTabuleiro(temHeuristica, aEstrela);
         return true;
     }
 
@@ -101,12 +109,13 @@ void No::calculaHeuristica(){
 void No::calculaCusto(int colunaAtual){
     this->tabuleiro->verificaColunaRainha();
     int colunaAnterior = this->tabuleiro->colunaRainha;
-    
+
     this->custo = N - 1 - abs(colunaAnterior-colunaAtual);
 }
 
+
 void No::calculaCustoEstrela(){
-    this->custoStar = this->custo + this->custoHeur;
+    this->custoStar = this->tabuleiro->somaCustoAcumulado()  + this->custoHeur;
 }
 
 /*

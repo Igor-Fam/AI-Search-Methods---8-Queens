@@ -41,6 +41,7 @@ public:
     int getCusto() {return custo;};
     int getCustoHeur() {return custoHeur;};
     int getCustoStar() {return custoStar;};
+
     void setCusto(int custo) {this->custo = custo;};
     void calculaHeuristica();
     void calculaCusto(int coluna);
