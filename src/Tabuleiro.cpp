@@ -75,27 +75,19 @@ int Tabuleiro::somaCustoAcumulado(bool temHeuristica, bool aEstrela){
         soma = custoAcumuladoHeur[N-1];
         //cout << "soma inicial: " << soma << endl;
     }
-    if(temHeuristica && ! aEstrela){
-        return accumulate(std::begin(custoAcumuladoHeur) , std::end(custoAcumuladoHeur), soma);
-    }
     return accumulate(std::begin(custoAcumulado) , std::end(custoAcumulado), soma);
 }
 
 void Tabuleiro::imprimeCustoAcumulado(bool temHeuristica, bool aEstrela){
     cout << endl;
     cout << "Custo Total da Solução: " << endl;
-    if(!aEstrela){
+    if(!aEstrela && !temHeuristica){
         for (int i = 0; i < N; i++) {
             if(i == 0){
                 cout << "(";
             }
 
-            if(temHeuristica){
-                cout << custoAcumuladoHeur[i];
-            }
-            else{
-                cout << custoAcumulado[i];
-            }
+            cout << custoAcumulado[i];
 
             if(i != N-1){
                 cout << ", ";

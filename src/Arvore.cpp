@@ -312,7 +312,7 @@ bool Arvore::auxBuscasInformadas(No* n, FilaEncad *abertos, FilaEncad *fechados,
         *cont += 1;
     }
 
-    quickSort(abertos);
+    quickSort(abertos, temHeuristica, eAEstrela);
 
     cout << "Abertos: ";
     abertos->imprime(temHeuristica, eAEstrela);
@@ -338,22 +338,32 @@ bool Arvore::auxBuscasInformadas(No* n, FilaEncad *abertos, FilaEncad *fechados,
 
 }
 
-void Arvore::quickSort(FilaEncad *abertos)
+void Arvore::quickSort(FilaEncad *abertos, bool temHeuristica, bool eAEstrela)
 {
     int n = abertos->getTam();
-    auxQuickSort(abertos, 0, n - 1);
+    auxQuickSort(abertos, 0, n - 1, temHeuristica, eAEstrela);
 }
 
-void Arvore::auxQuickSort(FilaEncad *abertos, int p, int q)
+void Arvore::auxQuickSort(FilaEncad *abertos, int p, int q, bool temHeuristica, bool eAEstrela)
 {
     //Verificando se o início é maior que o final
     if (p < q)
     {
+        int j = 0;
         //Começando o particionamento para iniciar o valor de j
-        int j = particionamento(abertos, p, q);
+        if (eAEstrela){
+            j = particionamentoStar(abertos, p, q);
+        }
+        else if (temHeuristica && !eAEstrela){
+            j = particionamentoHeur(abertos, p, q);
+        }
+        else {
+           j = particionamento(abertos, p, q);
+        }
+
         //Chamadas recursivas para dividir a lista e particioná-la
-        auxQuickSort(abertos, p, j - 1);
-        auxQuickSort(abertos, j + 1, q);
+        auxQuickSort(abertos, p, j - 1, temHeuristica, eAEstrela);
+        auxQuickSort(abertos, j + 1, q, temHeuristica, eAEstrela);
     }
 }
 
@@ -371,6 +381,64 @@ int Arvore::particionamento(FilaEncad *abertos, int p, int q)
         }
         //Percorrer o vetor até encontrar um elemento maior do que o pivô
         while (v < abertos->get(--j)->getInfo()->getCusto())
+        {
+            if (j == p)
+                break;
+        }
+        //Se os índices i e j se cruzarem o programa para
+        if (i >= j)
+            break;
+        //Troca o elemento da esquerda com o da direita
+        troca(abertos->get(i), abertos->get(j));
+    }
+    //Troca o elemento da esquerda com o último elemento
+    troca(abertos->get(i), abertos->get(q));
+    return i;
+}
+
+int Arvore::particionamentoHeur(FilaEncad *abertos, int p, int q)
+{
+    int i = p - 1, j = q;
+    //Escolhe o ponteiro
+    int v = abertos->get(q)->getInfo()->getCustoHeur();
+
+    while (1)
+    {
+        //Percorrer o vetor até encontrar um elemento menor do que o pivô
+        while (abertos->get(++i)->getInfo()->getCustoHeur() < v)
+        {
+        }
+        //Percorrer o vetor até encontrar um elemento maior do que o pivô
+        while (v < abertos->get(--j)->getInfo()->getCustoHeur())
+        {
+            if (j == p)
+                break;
+        }
+        //Se os índices i e j se cruzarem o programa para
+        if (i >= j)
+            break;
+        //Troca o elemento da esquerda com o da direita
+        troca(abertos->get(i), abertos->get(j));
+    }
+    //Troca o elemento da esquerda com o último elemento
+    troca(abertos->get(i), abertos->get(q));
+    return i;
+}
+
+int Arvore::particionamentoStar(FilaEncad *abertos, int p, int q)
+{
+    int i = p - 1, j = q;
+    //Escolhe o ponteiro
+    int v = abertos->get(q)->getInfo()->getCustoStar();
+
+    while (1)
+    {
+        //Percorrer o vetor até encontrar um elemento menor do que o pivô
+        while (abertos->get(++i)->getInfo()->getCustoStar() < v)
+        {
+        }
+        //Percorrer o vetor até encontrar um elemento maior do que o pivô
+        while (v < abertos->get(--j)->getInfo()->getCustoStar())
         {
             if (j == p)
                 break;

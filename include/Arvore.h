@@ -28,10 +28,12 @@ public:
     void buscaAestrela();
     void buscasInformadas(bool temHeuristica = false, bool eAEstrela = false);
     void buscaProfundidade();
-    void quickSort(FilaEncad *abertos);
-    void auxQuickSort(FilaEncad *abertos, int p, int q);
+    void quickSort(FilaEncad *abertos, bool temHeuristica = false, bool eAEstrela = false);
+    void auxQuickSort(FilaEncad *abertos, int p, int q, bool temHeuristica, bool eAEstrela);
     void troca(NoFP *a, NoFP *b);
     int particionamento(FilaEncad *abertos, int p, int q);
+    int particionamentoHeur(FilaEncad *abertos, int p, int q);
+    int particionamentoStar(FilaEncad *abertos, int p, int q);
     bool auxProfundidade(No* n, PilhaEncad *abertos, PilhaEncad *fechados, int *cont, int nivel);
     bool backtracking(No *atual, int nivel);
     bool buscaLargura();
