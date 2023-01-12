@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <chrono>
 
 #include "../include/Arvore.h"
 #include "../include/No.h"
@@ -54,6 +55,10 @@ void Arvore::iniciarBusca(){
 
     setarArvore();
 
+    auto start = chrono::steady_clock::now();
+    auto end = chrono::steady_clock::now();
+    auto elapsed_ms = chrono::duration_cast<chrono::milliseconds>(end - start);
+
     switch (busca)
     {
     case 1:
@@ -66,13 +71,25 @@ void Arvore::iniciarBusca(){
         buscaProfundidade();
         break;
     case 4:
+        start = chrono::steady_clock::now();
         buscaOrdenada();
+        end = chrono::steady_clock::now();
+        elapsed_ms = chrono::duration_cast<chrono::milliseconds>(end - start);
+        cout << "Tempo gasto: " << elapsed_ms.count() / 1000.0000 << " s" << endl;
         break;
     case 5:
+        start = chrono::steady_clock::now();
         buscaGulosa();
+        end = chrono::steady_clock::now();
+        elapsed_ms = chrono::duration_cast<chrono::milliseconds>(end - start);
+        cout << "Tempo gasto: " << elapsed_ms.count() / 1000.0000 << " s" << endl;
         break;
     case 6:
+        start = chrono::steady_clock::now();
         buscaAestrela();
+        end = chrono::steady_clock::now();
+        elapsed_ms = chrono::duration_cast<chrono::milliseconds>(end - start);
+        cout << "Tempo gasto: " << elapsed_ms.count() / 1000.0000 << " s" << endl;
         break;
     }
 }
